@@ -46,9 +46,8 @@ class BookStack extends Component {
                 {fromGetBook.length > 0
                     ? <ol className="book-stack-style">
                         {fromGetBook.map(book => (
-                            <li key={book.id} >
-                                <Book bookDetail={book} handleMoveBook={handleMoveBook}/>
-                            </li>))
+                                <Book key={book.id} bookDetail={book} handleMoveBook={handleMoveBook}/>
+                            ))
                         }
                       </ol>
                     : <div className="shelf-empty">Empty</div>

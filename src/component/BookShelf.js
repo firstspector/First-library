@@ -15,7 +15,7 @@ class BookShelf extends Component {
                 <ShelfHeader to='/search'/>
                 <div className="shelf-style">
                     {shelfTypes.map(shelfType => (
-                        <BookStack type={shelfType} assignBooks={assignBooks} handleMoveBook={moveBook}/>
+                        <BookStack key={shelfType} type={shelfType} assignBooks={assignBooks} handleMoveBook={moveBook}/>
                     ))}
                 </div>
             </div>

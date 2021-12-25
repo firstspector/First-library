@@ -13,20 +13,22 @@ class Book extends Component {
         const { bookDetail, handleMoveBook } = this.props
 
         return (
-            <div className="book-area">
-                <div className="book-image">
-                    <img src={bookDetail.imageLinks.smallThumbnail} alt={bookDetail.title} />
+            <li key={bookDetail.id} >
+                <div className="book-area">
+                    <div className="book-image">
+                        <img src={bookDetail.imageLinks.smallThumbnail} alt={bookDetail.title} />
+                    </div>
+                    <div className="book-detail">
+                        <div className="book-title">{bookDetail.title}</div>
+                        <div className="book-author">{bookDetail.authors?bookDetail.authors:''}</div>
+                    </div>
+                    <div className="book-button">
+                        {shelfTypes.map(shelfType => (
+                            <Buttons key={shelfType} shelfType={shelfType} bookDetail={bookDetail} handleMoveBook={handleMoveBook}/>
+                        ))}
+                    </div>
                 </div>
-                <div className="book-detail">
-                    <div className="book-title">{bookDetail.title}</div>
-                    <div className="book-author">{bookDetail.authors?bookDetail.authors:''}</div>
-                </div>
-                <div className="book-button">
-                    {shelfTypes.map(shelfType => (
-                        <Buttons shelfType={shelfType} bookDetail={bookDetail} handleMoveBook={handleMoveBook}/>
-                    ))}
-                </div>
-            </div>
+            </li>
         );
     }
 }
