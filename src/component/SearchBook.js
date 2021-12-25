@@ -10,19 +10,13 @@ class SearchBook extends Component {
         searchBooks: []
     }
 
-    search = (query) => {
-        BooksAPI.search(query)
-        .then((books) => {
-            if(Array.isArray(books)){
-                this.setState({
-                    searchBooks: books
-                })
-            } else {
-                this.setState({
-                    searchBooks: []
-                })
-            }
-        })
+    search = async (query) => {
+        const books = await BooksAPI.search(query);
+        if(Array.isArray(books)) {
+            this.setState({ searchBooks: books })
+        } else {
+            this.setState({ searchBooks: [] })
+        }
     }
 
     handleSearch = (event) => {

@@ -11,39 +11,36 @@ class App extends Component {
     books: []
   }
 
-  componentDidMount() {
-    BooksAPI.getAll()
-      .then((books) => {
-          this.setState({
-              books: books
-          })
-      });
+  async componentDidMount() {
+    const books = await BooksAPI.getAll();
+    this.setState({books: books});
   }
 
-  moveBook = (book,to) => {
+  addBookIfNotExist = (book,bookList) => {
+    return !bookList.some((b) => b.id === book.id)
+            ? bookList.concat([book])
+            : bookList
+  }
 
-    let updateBooks = []
-
-    BooksAPI.update(book,to)
-      .then((shelfs) => {
-        this.setState((currentState) => {
-
-          updateBooks = currentState.books.slice()
-
-          if(!updateBooks.some((b) => b.id === book.id)) {
-            updateBooks.push(book);
-          }
-
-          updateBooks = updateBooks.map((b) => {
-            b.shelf = Object.keys(shelfs).filter(shelfKey => shelfs[shelfKey].includes(b.id))[0];
+  updateBookShelf = (shelves,bookList) => {
+    return bookList.map((b) => {
+            b.shelf = Object.keys(shelves).filter(shelfKey => shelves[shelfKey].includes(b.id))[0];
             return b;
-          })
+           })
+  }
 
-          return {
-            books: updateBooks
-          }
-        })
-      })
+  moveBook = async (book,to) => {
+
+    let updateBooks = [];
+
+    const shelves = await BooksAPI.update(book,to);
+    this.setState((currentState) => {
+      updateBooks = currentState.books.slice();
+      updateBooks = this.addBookIfNotExist(book,updateBooks);
+      updateBooks = this.updateBookShelf(shelves,updateBooks);
+
+      return { books: updateBooks}
+    })
   }
 
   render() {
